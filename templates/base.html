@@ -16,7 +16,7 @@
 
 <div  style="padding: 0; margin: 0;">
 			<div style="border:none; background: #ff1c80;  padding: 1px 10px 0;"> 
-				 <a style="padding: 0;" href="/"><h1 style="text-align:left; color: white; height: 29px;margin: 15px 0px;">stickybits</h1></a>
+				 <a style="padding: 0;" href="/"><h1 style="text-align:left; color: white; height: 29px;margin: 15px 0px;">{{ title }}</h1></a>
 			</div>
 		</div>
 
@@ -27,16 +27,6 @@
 
 {% block main %}
 {% endblock %}
-
-
-{% if not logged_in %}
-<br/>
-		<img style="cursor:pointer;" src="/images/facebook_connect.png"/>
-			<div class="buttons">
-		  <input class="button" id="submit" name="commit" type="submit" style="color:white; max-width: 175px;  border: 1px solid #1F8FD2; text-shadow: #999 0 1px 0; margin: 5px 0; font-size:18px; height:31px;" value="Login">
-		</div>
-		<a style="cursor:pointer;font-weight:bold;">create new account</a>
-{% endif %}		
 
 
 		</div>

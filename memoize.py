@@ -6,12 +6,13 @@ from google.appengine.api import memcache
 
 ACTIVE_ON_DEV_SERVER = False
       
-def memoize(time=1000000):
+def memoize(time=1000000, force_cache=False):
     
     """Decorator to memoize functions using memcache.
     
     Optional Args:
       time - duration before cache is refreshed
+      force_cache - forces caching on dev_server (useful for APIs, etc.)
 
       @memoize(86400)
       def updateAllEntities(key_name, params):
@@ -41,7 +42,7 @@ def memoize(time=1000000):
             key = fxn.__name__ + arg_string
             logging.debug('caching key: %s' % key)
             data = memcache.get(key)
-            if Debug() and not ACTIVE_ON_DEV_SERVER: 
+            if Debug() and not ACTIVE_ON_DEV_SERVER and not force_cache: 
               return fxn(*args, **kwargs) 
             elif data:
                 if data.__class__ == NoneVal: 
