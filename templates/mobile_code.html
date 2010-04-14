@@ -1,0 +1,94 @@
+{% extends "mobile_base.html" %}
+
+{% block main %}
+
+<h1>{{ code.name }}</h1>
+
+<img src="/images/code.png" style="float:left;"/> <div id="stats" style="float:left; margin-top:4px;">926 scans <br/> 109 bits</div>
+
+<div style="clear:both; margin: 20px 5px;"><br/>Most recently at: 92-130 Escondido Rd, Stanford, CA</div>
+
+
+<div class="ui-widget">
+			<div class="ui-state-highlight ui-corner-all" style="margin-top: 20px; padding: 10px;">
+			<h2>Images</h2>
+			<div class="images" style="position:relative;">
+			{% for image in code.images %} 
+			<div class="image" style="margin:10px 0px 10px 5px; height: 120px; float:left; ">
+			<div class="img_wrapper" style="height:75px;">
+<img style=" border: 3px solid #E2D0D0;" src="http://dummyimage.com/{{ image.0 }}x{{ image.1 }}/000/fff"/>
+</div>
+<a style="padding: 0px; text-decoration:underline; color: #740404; font-size:1.2em;">{{ image.2 }}</a>
+<br/>
+{{ image.3 }} days ago
+<br/>
+<a style="padding: 0px; color: #740404; " >flag</a>
+</div>
+{% endfor %}
+<div class="clear"></div>
+</div>
+</div>
+		</div>
+
+
+<div class="ui-widget">
+			<div class="ui-state-highlight ui-corner-all" style="margin-top: 20px; padding: 10px;">
+			<h2>Videos</h2>
+			<div class="videos" style="position:relative;">
+			{% for video in code.videos %} 
+			<div class="image" style="margin:10px 0px 10px 5px; height: 120px; float:left; ">
+<div class="img_wrapper" style="height:75px;">
+<img style=" border: 3px solid #E2D0D0;" src="http://dummyimage.com/{{ video.0 }}x{{ video.1 }}/000/fff"/>
+</div>
+<a style="padding: 0px; text-decoration:underline; color: #740404; font-size:1.2em;">{{ video.2 }}</a>
+<br/>
+{{ video.3 }} days ago
+<br/>
+<a style="padding: 0px; color: #740404; " >flag</a>
+</div>
+{% endfor %}
+<div class="clear"></div>
+</div>
+</div>
+		</div>
+
+	
+	
+<div class="ui-widget">
+			<div class="ui-state-highlight ui-corner-all" style="margin-top: 20px; padding: 10px;">
+			<h2>Comments</h2>
+			<div class="comments" style="position:relative;">
+			{% for comment in code.comments %} 
+			<div class="comment" style="border-top: 1px solid #E2EBF4;border-bottom: 1px solid #E2EBF4;margin: 15px -11px 10px;padding: 8px;width: 101%; ">
+<div style="padding: 3px 0px; margin: 0px; font-size:16px;">{{ comment.0 }}</div>
+<a class="link" style="padding: 0px; text-decoration:underline; color: #740404; font-size:1.2em;">{{ comment.1 }}</a>
+<br/>
+{{ comment.2 }} days ago
+<br/>
+<a class="link" style="padding: 0px; color: #740404; " >flag</a>
+</div>
+{% endfor %}
+<div class="clear"></div>
+</div>
+</div>
+		</div>
+
+
+<div class="ui-widget">
+			<div class="ui-state-highlight ui-corner-all" style="margin-top: 20px; padding: 10px;">
+			<h2>Recently Scanned By</h2>
+			<div class="videos" style="position:relative;">
+			{% for i in code.scanned_by %} 
+			<div class="image" style="margin:10px 0px 10px 5px; height: 50px; float:left; ">
+<a href=""><img style=" border: 3px solid #E2D0D0; " src="http://dummyimage.com/50x50/000/fff"/></a>
+</div>
+{% endfor %}
+<div class="clear"></div>
+</div>
+</div>
+		</div>
+
+	
+			
+
+{% endblock %}

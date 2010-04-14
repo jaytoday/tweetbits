@@ -1,0 +1,46 @@
+application: tweetbits
+version: 0-00
+runtime: python
+api_version: 1
+
+handlers:
+
+# Admin Handlers
+
+- url: /console/static
+  static_dir: console/app/view/static  
+  
+- url: /favicon.ico
+  static_files: images/favicon.ico
+  upload: images/favicon.ico
+  
+- url: /console.*
+  script: console/app/console.py
+  login: admin
+
+- url: /_ah/queue/deferred
+  script: deferred.py
+  login: admin
+
+
+# Static Handlers
+  
+- url: /css
+  static_dir: css
+
+- url: /web
+  static_dir: web
+    
+- url: /js
+  static_dir: js
+
+- url: /images
+  static_dir: images
+  
+
+  
+# Request Handlers  
+
+
+- url: /
+  script: index.py
