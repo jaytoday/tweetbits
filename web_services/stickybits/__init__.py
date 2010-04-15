@@ -47,6 +47,7 @@ __title__ = 'python-stickybits'
 __version__ = '0.3'
 __license__ = "BSD"
 
+import os
 import datetime
 import base64
 import weakref, new
@@ -109,14 +110,12 @@ class stickybitsAuth(object):
                      cache=None, timeout=None):
                      
         opener = urllib2.build_opener(urllib2.HTTPHandler)
-        if data: 
+        if type(data) == dict: 
           data = urllib.urlencode(data)
         self._request = urllib2.Request(url=url, data=data)
         self._request.get_method = lambda: method
         self._request.add_header('Accept', 'application/json')
         self._request.add_header('User-Agent', __title__)
-        if not headers.get('Content-Type'):
-          self._request.add_header('Content-Type', 'application/json')
         for k,v in headers.items():
           self._request.add_header(k,v)
 
@@ -227,7 +226,6 @@ class Stickybits(object):
     class code(object):
       
       @classmethod
-      @user_authenticated
       def get(self, codeid, **kwargs):
         '''
         
@@ -318,7 +316,6 @@ class Stickybits(object):
         return self.parent.request('code.nearby', kwargs, "GET")
 
       @classmethod
-      @user_authenticated
       def create(self, **kwargs):
         '''
         
@@ -478,27 +475,16 @@ class Stickybits(object):
           data[filetype] = kwargs[filetype]
           del kwargs[filetype]
         if data.get('file'):
-          # use poster lib to handle multipart/form-data encoding
-          from poster.encode import multipart_encode
-          # TODO: use poster.streaminghttp for streaming audio or video 
           # TODO: also support URL for server-side download?
           try:
-            filedict = {"file": open(data['file'], "rb")}
-          except:
-            raise FileAccessError
-          try:
-            payloadgen, _headers = multipart_encode(filedict)
+            content_type, body = file_encode(data['file'])
           except:
             raise FileEncodingError
           import mimetypes
-          headers = {
-            'File-Type': mimetypes.guess_type(data['file'])[0],
-            'File-Name': data['file'].split('/')[-1],
-            'File-Size': _headers.get('Content-Length'),
-            #'Content-Type': _headers.get('Content-Type')
+          headers = { 
+            'Content-Type': content_type#mimetypes.guess_type(data['file'])[0]#_headers.get('Content-Type')
           }
-          payload = str().join(payloadgen)
-          data['file'] = payload
+          data = body
 
         return self.parent.request('bit.add', kwargs, "POST",
         data=data, headers=headers)
@@ -1072,6 +1058,40 @@ class Stickybits(object):
     notify=childClass(notify)  
 
 
+def file_encode (file_path, fields=[]):
+    BOUNDARY = '----------boundary------'
+    CRLF = '\r\n'
+    body = []
+    # Add the metadata about the upload first
+    for key, value in fields:
+        body.extend(
+          ['--' + BOUNDARY,
+           'Content-Disposition: form-data; name="%s"' % key,
+           '',
+           value,
+           ])
+    # Now add the file itself
+    file_name = os.path.basename(file_path)
+    try:
+      f = open(file_path, 'rb')
+      file_content = f.read()
+      f.close()
+    except:
+      raise FileAccessError
+    body.extend(
+      ['--' + BOUNDARY,
+       'Content-Disposition: form-data; name="file"; filename="%s"'
+       % file_name,
+       # The upload server determines the mime-type, no need to set it.
+       'Content-Type: application/octet-stream',
+       '',
+       file_content,
+       ])
+    # Finalize the form body
+    body.extend(['--' + BOUNDARY + '--', ''])
+    return 'multipart/form-data; boundary=%s' % BOUNDARY, CRLF.join(body)  
+  
+  
 class StickybitsError(Exception):
     """base API error."""
     pass

@@ -11,7 +11,10 @@ __version__ = '0.5'
 import base64
 import md5
 import os
-import simplejson
+try:
+	import simplejson
+except ImportError:
+	from django.utils import simplejson
 import sys
 import tempfile
 import time
