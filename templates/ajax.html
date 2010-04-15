@@ -1,0 +1,22 @@
+
+<div class="ui-widget" style="max-width:460px;">
+			<div class="ui-state-notify ui-corner-all"  style="text-align:center; margin: 10px; " class="instructions">
+				<h2 style="background: #FF1C80; padding:9px;"><a style="font-size: 18px; color:white;">http://viewb.it/@{{ handle }}</a></h2>
+		<img src="http://stickybits.com/b/{{ codeid }}.png" />
+			</div>
+		</div>
+		
+		
+		
+<br/>
+
+
+<ul>
+  <li><h2 >{{ handle.capitalize }}'s Recent Twitter Activity</h2>
+  <ul>
+    {% for item in twitter_stream %}
+  <li>{{ item.text|safe }}</li>
+  {% endfor %}
+  </ul>
+  </li>
+  </ul>

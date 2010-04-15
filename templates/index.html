@@ -1,53 +1,30 @@
 {% extends "base.html" %}
 
 {% block main %}
+<div id="follow-stickybits" style="height:50px;"></div>
+<div id="twitter-connect-placeholder" style="height:50px;"></div>
+
+
+<div id="ajax" style="display:none;">
+	
+	<img src="/images/ajax-loader.gif" style="padding: 5px; float:left; margin-right:10px;"/> <h2 style=" float:left;">Loading...</h2>
+	
+</div>
+
+
+
+<div style="clear:both; height:1px;"></div>
 
   <div id="header" style="text-align:left; margin-bottom:10px;">
-  <h2>HashTags/Codes</h2>
-	<h2>this app is built with the <a href="http://code.google.com/p/stickybits/" style="color:#ff1c80; font-size: 1.1em;">stickybits API</a> </h2>
+
+	<h2>Interested in building on the <a href="http://code.google.com/p/stickybits/" style="color:#ff1c80; font-size: 1.1em;">stickybits</a> platform?<div style="height:3px;"></div> E-mail <a href="mailto:james@stickybits.com" style="color:#ff1c80; font-size: 1.1em;">james@stickybits.com</a></h2>
 </div>
 
 {% comment %}
-<div class="ui-widget" style="max-width:460px;">
-			<div class="ui-state-notify ui-corner-all" style="padding: 0 .7em;"> 
-				<p style="font-size:12px;">
-				<img src="/images/email.png" style="float:left;margin: -8px 3px 0px -4px;"/> E-mail barcode photos to <a style="font-size: 1.2em;" href="mailto://upload@stickybits.com">upload@stickybits.com</a></p>
-			<div class="ui-state-notify ui-corner-all"  style="height:30px; text-align:center; margin: 10px; height: 70px; max-width: 300px;  " class="instructions">
-			<br/><br/>OS-specific instructions
-			</div>
-			
-			</div>
-		</div>
+
 {% endcomment %}
 
 
-<br/>
-<h2 >stickybits stream</h2>
-<ul>
-{% for stream in stickybits_streams %}
-  <li><strong>{{ stream.name }}</strong>
-  <ul>
-    {% for item in stream.items %}
-  <li>{{ item|safe }}</li>
-  {% endfor %}
-  </ul>
-  </li>
-  {% endfor %}
-  </ul>
-
-
-<h2 >twitter stream</h2>
-<ul>
-{% for stream in twitter_streams %}
-  <li><strong>{{ stream.name }}</strong>
-  <ul>
-    {% for item in stream.items %}
-  <li>{{ item.text|safe }}</li>
-  {% endfor %}
-  </ul>
-  </li>
-  {% endfor %}
-  </ul>
   			
 
 {% endblock %}

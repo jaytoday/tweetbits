@@ -1,8 +1,71 @@
 <html>
+<head>
   <title>{{ title }}</title>
   <link rel="stylesheet" href="/css/index.css" type="text/css" media="screen">
 <link rel="stylesheet" href="/css/aristo/aristo.css" type="text/css" media="screen">
   {# <script src="/javascripts/index.js" type="text/javascript"></script> #}
+
+		 <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.4/jquery.min.js"></script> 
+ 
+<script src="http://platform.twitter.com/anywhere.js?id=6iM5qtwKh1dpRa6I8YE8Q&v=1">
+  </script>
+
+	<script type="text/javascript">
+	$(function(){
+
+
+twttr.anywhere(onAnywhereLoad);
+
+function onConnect(){
+
+		$('#ajax').show();
+		
+		
+      screenName = twitter.currentUser.data('screen_name');
+      profileImage = twitter.currentUser.data('profile_image_url');
+      profileImageTag = "<img src='" + profileImage + "'/>";
+      $('#twitter-connect-placeholder').html("Logged in as " + profileImageTag + " " + screenName + " (<a href='#' onClick='twttr.anywhere.signOut();'>Sign out</a>)");
+	
+		setTimeout(function(){
+			$.ajax({
+   type: "GET",
+   url: "/ajax",
+   data: {
+	handle: screenName
+   },
+   success: function(data) {
+  $('#ajax').html(data);
+      },
+    complete: function(){
+	 twitter.hovercards();
+}
+ }); }, 2000);
+	
+	
+};
+
+  function onAnywhereLoad(twitter){
+ twitter('#follow-stickybits').followButton("stickybits");
+	
+	    if (twitter.isConnected()) {
+		onConnect();
+    } else {
+      twitter("#twitter-connect-placeholder").connectButton({ 
+	    size: "xlarge",
+	    authComplete: function(loggedInUser) {
+     			// triggered when auth completed successfully
+				onConnect();
+   			},
+       });
+    };
+
+ };
+
+});
+
+</script>
+ 
+</head>
 
   <link rel="icon" type="image/png" href="/images/icon.png">
 
@@ -14,7 +77,7 @@
 
 </head><body>
 
-<div  style="padding: 0; margin: 0;">
+<div style="padding: 0; margin: 0;">
 			<div style="border:none; background: #ff1c80;  padding: 1px 10px 0;"> 
 				 <a style="padding: 0;" href="/"><h1 style="text-align:left; color: white; height: 29px;margin: 15px 0px;">{{ title }}</h1></a>
 			</div>

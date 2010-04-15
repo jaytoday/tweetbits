@@ -1120,7 +1120,7 @@ class NotAcceptableError(StickybitsError):
     """Request not acceptable error."""
     pass
 
-class SeverError(StickybitsError):
+class ServerError(StickybitsError):
     """ Unexpected server error."""
     pass
     
